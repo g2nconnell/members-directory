@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+message MemberID {
+    int64 id = 1;
+}
+
+message Address {
+    string street1 = 1;
+    string street2 = 2;
+    string town = 3;
+    string state = 4;
+    string zip = 5;
+}
+
+message PhoneNumber {
+    string country = 1;
+    string area = 2;
+    string phone = 3;
+}
+
+message Photo {
+    bytes pic = 1;
+}
+
+message Member {
+    string firstName = 1;
+    string lastName = 2;
+    string middleName = 3;
+    Address address = 4;
+    string email = 5;
+    PhoneNumber phone = 6;
+    Photo photo = 7;
+}
+
+message MemberWithID {
+    MemberID id = 1;
+    Member member = 2;
+}
+
+message CreateMemberRequest {
+    Member member = 1;
+}
+
+message CreateMemberResponse {
+    MemberID id = 1;
+}
+
+message DeleteMemberRequest {
+    MemberID id = 1;
+}
+
+message DeleteMemberResponse {
+    MemberID id = 1;
+}
+
+message ListMembersRequest {
+
+}
+
+message ListMembersResponse {
+    repeated MemberWithID members = 1;
+}
+
+service DirectoryService {
+    grpc CreateMember(CreateMemberRequest) returns (CreateMemberResponse);
+    grpc DeleteMember(DeleteMemberRequest) returns (DeleteMemberResponse);
+    grpc ListMembers(ListMembersRequest) returns (ListMembersResponse);
+}
