@@ -1,4 +1,6 @@
 syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+option go_package = "github.com/g2nconnell/members-directory/directoryService";
 
 message MemberID {
     int64 id = 1;
@@ -30,6 +32,7 @@ message Member {
     string email = 5;
     PhoneNumber phone = 6;
     Photo photo = 7;
+    google.protobuf.Timestamp birthday = 8;
 }
 
 message MemberWithID {
@@ -53,6 +56,22 @@ message DeleteMemberResponse {
     MemberID id = 1;
 }
 
+message UpdateMemberRequest {
+    MemberWithID memberWithId = 1;
+}
+
+message UpdateMemberResponse {
+    MemberID id = 1;
+}
+
+message GetMemberRequest {
+    MemberID id = 1;
+}
+
+message GetMemberResponse {
+    MemberWithID memberWithId = 1;
+}
+
 message ListMembersRequest {
 
 }
@@ -62,7 +81,9 @@ message ListMembersResponse {
 }
 
 service DirectoryService {
-    grpc CreateMember(CreateMemberRequest) returns (CreateMemberResponse);
-    grpc DeleteMember(DeleteMemberRequest) returns (DeleteMemberResponse);
-    grpc ListMembers(ListMembersRequest) returns (ListMembersResponse);
+    rpc CreateMember(CreateMemberRequest) returns (CreateMemberResponse);
+    rpc DeleteMember(DeleteMemberRequest) returns (DeleteMemberResponse);
+    rpc UpdateMember(UpdateMemberRequest) returns (UpdateMemberResponse);
+    rpc GetMember(GetMemberRequest) returns (GetMemberResponse);
+    rpc ListMembers(ListMembersRequest) returns (ListMembersResponse);
 }
